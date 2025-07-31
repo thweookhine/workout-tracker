@@ -27,8 +27,10 @@ public class Exercise {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private Category category;
 
+    @Enumerated(EnumType.STRING)
     private MuscleGroup muscleGroup;
 
     @CreatedDate

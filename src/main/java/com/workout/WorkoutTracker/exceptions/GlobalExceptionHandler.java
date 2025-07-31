@@ -1,11 +1,15 @@
 package com.workout.WorkoutTracker.exceptions;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.workout.WorkoutTracker.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -33,6 +37,16 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException exception) {
         ErrorResponse error = getErrorResponse(400, List.of(exception.getMessage()));
+        return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        List<String> errors = new ArrayList<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.add(error.getDefaultMessage())
+        );
+        ErrorResponse error = getErrorResponse(400, errors);
         return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
     }
 

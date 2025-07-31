@@ -29,6 +29,7 @@ public class WorkoutPlan {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @Enumerated(EnumType.STRING)
     private PlanStatus status;
 
     private String description;
