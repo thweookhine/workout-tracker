@@ -2,11 +2,13 @@ package com.workout.WorkoutTracker.service;
 
 import com.workout.WorkoutTracker.dto.ExerciseDto;
 import com.workout.WorkoutTracker.entity.Exercise;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ExerciseService {
     Exercise createExercise(ExerciseDto dto);
     Exercise updateExercise(Long id, ExerciseDto dto);
-    List<ExerciseDto> getAllExercises();
+    Page<ExerciseDto> searchExercises(String keyword, Pageable pageable);
 }

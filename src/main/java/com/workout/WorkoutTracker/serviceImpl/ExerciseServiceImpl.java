@@ -8,6 +8,9 @@ import com.workout.WorkoutTracker.exceptions.ResourceNotFoundException;
 import com.workout.WorkoutTracker.mapper.ExerciseMapper;
 import com.workout.WorkoutTracker.service.ExerciseService;
 import com.workout.WorkoutTracker.util.Category;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,8 +47,19 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<ExerciseDto> getAllExercises() {
-        return List.of();
+    public Page<ExerciseDto> searchExercises(String keyword, Pageable pageable) {
+        Page<Exercise> exercisePage = null;
+        if (keyword == null || keyword.isBlank()) {
+            exercisePage = exerciseRepository.findAll(pageable);
+        }else {
+            exercisePage = exerciseRepository.searchByKeyword(keyword, pageable);
+        }
+
+        List<ExerciseDto> dtoList = exercisePage.stream()
+                .map(exercise -> exerciseMapper.toDto(exercise))
+                .toList();
+
+        return new PageImpl<>(dtoList, pageable, exercisePage.getTotalElements());
     }
 
 
