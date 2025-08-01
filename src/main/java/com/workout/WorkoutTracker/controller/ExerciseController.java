@@ -3,7 +3,6 @@ package com.workout.WorkoutTracker.controller;
 import com.workout.WorkoutTracker.dto.ExerciseDto;
 import com.workout.WorkoutTracker.dto.ExerciseIdAndNameDto;
 import com.workout.WorkoutTracker.dto.ResponseData;
-import com.workout.WorkoutTracker.dto.UserDto;
 import com.workout.WorkoutTracker.entity.Exercise;
 import com.workout.WorkoutTracker.service.ExerciseService;
 import jakarta.validation.Valid;
