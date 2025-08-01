@@ -3,11 +3,14 @@ package com.workout.WorkoutTracker.serviceImpl;
 import com.workout.WorkoutTracker.Repository.ExerciseRepository;
 import com.workout.WorkoutTracker.commons.ErrorMessage;
 import com.workout.WorkoutTracker.dto.ExerciseDto;
+import com.workout.WorkoutTracker.dto.ExerciseIdAndNameDto;
 import com.workout.WorkoutTracker.entity.Exercise;
+import com.workout.WorkoutTracker.exceptions.BusinessException;
 import com.workout.WorkoutTracker.exceptions.ResourceNotFoundException;
 import com.workout.WorkoutTracker.mapper.ExerciseMapper;
 import com.workout.WorkoutTracker.service.ExerciseService;
 import com.workout.WorkoutTracker.util.Category;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -56,11 +59,24 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
 
         List<ExerciseDto> dtoList = exercisePage.stream()
-                .map(exercise -> exerciseMapper.toDto(exercise))
+                .map(exerciseMapper::toDto)
                 .toList();
 
         return new PageImpl<>(dtoList, pageable, exercisePage.getTotalElements());
     }
 
+    @Override
+    public void deleteExercise(Long id) {
+        try {
+            exerciseRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ResourceNotFoundException("Exercise not found with id " + id);
+        }
+    }
+
+    @Override
+    public List<ExerciseIdAndNameDto> getIdsAndNames() {
+        return exerciseRepository.getIdsAndNames();
+    }
 
 }

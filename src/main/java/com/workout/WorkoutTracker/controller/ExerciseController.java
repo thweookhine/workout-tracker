@@ -1,6 +1,7 @@
 package com.workout.WorkoutTracker.controller;
 
 import com.workout.WorkoutTracker.dto.ExerciseDto;
+import com.workout.WorkoutTracker.dto.ExerciseIdAndNameDto;
 import com.workout.WorkoutTracker.dto.ResponseData;
 import com.workout.WorkoutTracker.dto.UserDto;
 import com.workout.WorkoutTracker.entity.Exercise;
@@ -18,7 +19,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/exercises")
-@PreAuthorize("hasRole('ADMIN')")
 @Validated
 public class ExerciseController {
 
@@ -29,6 +29,7 @@ public class ExerciseController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createExercise(@Valid @RequestBody ExerciseDto dto) {
         Exercise exercise = exerciseService.createExercise(dto);
         ResponseData<Exercise> apiResponse = new ResponseData<>(200, "Exercise has been created successfully",
@@ -37,6 +38,7 @@ public class ExerciseController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateExercise(@PathVariable Long id, @Valid @RequestBody ExerciseDto dto) {
         Exercise exercise = exerciseService.updateExercise(id, dto);
         ResponseData<Exercise> apiResponse = new ResponseData<>(200, "Exercise has been updated successfully",
@@ -53,6 +55,22 @@ public class ExerciseController {
         Page<ExerciseDto> exerciseList = exerciseService.searchExercises(keyword, pageable);
         ResponseData<Page<ExerciseDto>> apiResponse = new ResponseData<>(200, "Exercises have been fetched",
                 exerciseList);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteExercise(@PathVariable Long id) {
+        exerciseService.deleteExercise(id);
+        ResponseData<String> apiResponse = new ResponseData<>(200, "Exercise has been deleted successfully!",
+                null);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/getNames")
+    public ResponseEntity<?> getNames() {
+        ResponseData<List<ExerciseIdAndNameDto>> apiResponse = new ResponseData<>(200, "Exercises names and ids have been fetched!",
+                exerciseService.getIdsAndNames());
         return ResponseEntity.ok(apiResponse);
     }
 }
