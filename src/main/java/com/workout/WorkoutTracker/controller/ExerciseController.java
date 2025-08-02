@@ -6,6 +6,7 @@ import com.workout.WorkoutTracker.dto.ResponseData;
 import com.workout.WorkoutTracker.entity.Exercise;
 import com.workout.WorkoutTracker.service.ExerciseService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,13 +20,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/exercises")
 @Validated
+@RequiredArgsConstructor
 public class ExerciseController {
 
     private final ExerciseService exerciseService;
-
-    public ExerciseController(ExerciseService exerciseService) {
-        this.exerciseService = exerciseService;
-    }
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")

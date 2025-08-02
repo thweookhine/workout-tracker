@@ -10,29 +10,26 @@ import com.workout.WorkoutTracker.entity.Exercise;
 import com.workout.WorkoutTracker.entity.User;
 import com.workout.WorkoutTracker.entity.WorkoutExercise;
 import com.workout.WorkoutTracker.entity.WorkoutPlan;
+import com.workout.WorkoutTracker.exceptions.BusinessException;
 import com.workout.WorkoutTracker.exceptions.ResourceNotFoundException;
 import com.workout.WorkoutTracker.mapper.WorkoutPlanMapper;
 import com.workout.WorkoutTracker.service.WorkoutPlanService;
 import com.workout.WorkoutTracker.util.PlanStatus;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class WorkoutPlanServiceImpl implements WorkoutPlanService {
 
     private final WorkoutPlanRepository workoutPlanRepository;
     private final WorkoutPlanMapper workoutMapper;
     private final ExerciseRepository exerciseRepository;
-
-    public WorkoutPlanServiceImpl(WorkoutPlanRepository workoutPlanRepository,
-                                  WorkoutPlanMapper workoutMapper,
-                                  ExerciseRepository exerciseRepository) {
-        this.workoutPlanRepository = workoutPlanRepository;
-        this.workoutMapper = workoutMapper;
-        this.exerciseRepository = exerciseRepository;
-    }
 
     @Override
     public WorkoutPlanResDto createWorkoutPlan(WorkoutPlanReqDto dto, User user) {
@@ -59,6 +56,28 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         workoutPlan.setStatus(PlanStatus.PENDING);
         workoutPlan = workoutPlanRepository.save(workoutPlan);
         return workoutMapper.toDto(workoutPlan);
+    }
+
+    @Override
+    @Transactional
+    public Map<String, PlanStatus> changeStatus(Long id, PlanStatus status) {
+        // Get workout plan by ID
+        WorkoutPlan workoutPlan = workoutPlanRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.WORKOUT_PLAN_NOT_FOUND_MSG));
+
+        PlanStatus oldStatus =workoutPlan.getStatus();
+        if(oldStatus == status) {
+            throw new BusinessException("You have already changed to "+ status);
+        }
+
+        if((PlanStatus.COMPLETED).equals(oldStatus)) {
+            throw new BusinessException("You cannot change already Completed Plans");
+        }
+
+        workoutPlan.setStatus(status);
+        workoutPlanRepository.save(workoutPlan);
+
+        return Map.of("previous-status", oldStatus, "updated-status", status);
     }
 
 }

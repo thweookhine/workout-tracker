@@ -8,6 +8,7 @@ import com.workout.WorkoutTracker.entity.Exercise;
 import com.workout.WorkoutTracker.exceptions.ResourceNotFoundException;
 import com.workout.WorkoutTracker.mapper.ExerciseMapper;
 import com.workout.WorkoutTracker.service.ExerciseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,15 +18,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService {
 
     private final ExerciseRepository exerciseRepository;
     private final ExerciseMapper exerciseMapper;
-
-    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, ExerciseMapper exerciseMapper){
-        this.exerciseRepository = exerciseRepository;
-        this.exerciseMapper = exerciseMapper;
-    }
 
     @Override
     public ExerciseDto createExercise(ExerciseDto dto) {

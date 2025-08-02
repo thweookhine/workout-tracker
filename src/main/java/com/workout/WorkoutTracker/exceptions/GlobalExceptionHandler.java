@@ -9,6 +9,7 @@ import java.util.Map;
 import com.workout.WorkoutTracker.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -50,11 +51,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<String> handleGeneric(Exception ex) {
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                .body("Unexpected error occurred. Please try again later.");
-//    }
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AuthorizationDeniedException ex) {
+        ErrorResponse error = getErrorResponse(403, List.of(ex.getMessage()));
+        return new ResponseEntity<ErrorResponse>(error, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleGeneric(Exception ex) {
+        ErrorResponse error = getErrorResponse(500, List.of(ex.getMessage()));
+        return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     private ErrorResponse getErrorResponse(int status, List<String> messages) {
         ErrorResponse error = new ErrorResponse();

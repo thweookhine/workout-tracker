@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = {WorkoutExerciseMapper.class})
 public interface WorkoutPlanMapper {
+
     WorkoutPlan toEntity(WorkoutPlanReqDto dto);
 
     @Mapping(source = "workoutExercises", target = "workoutExerciseList")

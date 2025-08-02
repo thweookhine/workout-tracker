@@ -1,5 +1,6 @@
 package com.workout.WorkoutTracker.mapper;
 
+import com.workout.WorkoutTracker.dto.WorkoutExerciseReqDto;
 import com.workout.WorkoutTracker.dto.WorkoutExerciseResDto;
 import com.workout.WorkoutTracker.entity.WorkoutExercise;
 import org.mapstruct.Mapper;
