@@ -10,5 +10,4 @@ public interface ExerciseMapper {
     Exercise toEntity(ExerciseDto dto);
     ExerciseDto toDto(Exercise exercise);
     void updateExerciseFromDto(ExerciseDto dto, @MappingTarget Exercise entity);
-
 }

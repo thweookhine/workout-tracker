@@ -28,12 +28,13 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Exercise createExercise(ExerciseDto dto) {
-        return exerciseRepository.save(exerciseMapper.toEntity(dto));
+    public ExerciseDto createExercise(ExerciseDto dto) {
+        Exercise exercise = exerciseRepository.save(exerciseMapper.toEntity(dto));
+        return exerciseMapper.toDto(exercise);
     }
 
     @Override
-    public Exercise updateExercise(Long id, ExerciseDto dto) {
+    public ExerciseDto updateExercise(Long id, ExerciseDto dto) {
         // Find exercise by id
         Exercise exercise = exerciseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.EXERCISE_NOT_FOUND_MSG));
@@ -44,7 +45,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         exerciseRepository.save(exercise);
 
         // return updated exercise
-        return exercise;
+        return exerciseMapper.toDto(exercise);
     }
 
     @Override

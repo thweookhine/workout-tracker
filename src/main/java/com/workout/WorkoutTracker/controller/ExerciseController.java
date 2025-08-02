@@ -30,18 +30,18 @@ public class ExerciseController {
     @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createExercise(@Valid @RequestBody ExerciseDto dto) {
-        Exercise exercise = exerciseService.createExercise(dto);
-        ResponseData<Exercise> apiResponse = new ResponseData<>(200, "Exercise has been created successfully",
-                exercise);
+        ExerciseDto exerciseDto = exerciseService.createExercise(dto);
+        ResponseData<ExerciseDto> apiResponse = new ResponseData<>(200, "Exercise has been created successfully",
+                exerciseDto);
         return ResponseEntity.ok(apiResponse);
     }
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateExercise(@PathVariable Long id, @Valid @RequestBody ExerciseDto dto) {
-        Exercise exercise = exerciseService.updateExercise(id, dto);
-        ResponseData<Exercise> apiResponse = new ResponseData<>(200, "Exercise has been updated successfully",
-                exercise);
+        ExerciseDto exerciseDto = exerciseService.updateExercise(id, dto);
+        ResponseData<ExerciseDto> apiResponse = new ResponseData<>(200, "Exercise has been updated successfully",
+                exerciseDto);
         return ResponseEntity.ok(apiResponse);
     }
 

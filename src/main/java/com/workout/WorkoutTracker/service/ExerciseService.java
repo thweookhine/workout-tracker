@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ExerciseService {
-    Exercise createExercise(ExerciseDto dto);
-    Exercise updateExercise(Long id, ExerciseDto dto);
+    ExerciseDto createExercise(ExerciseDto dto);
+    ExerciseDto updateExercise(Long id, ExerciseDto dto);
     Page<ExerciseDto> searchExercises(String keyword, Pageable pageable);
     void deleteExercise(Long id);
     List<ExerciseIdAndNameDto> getIdsAndNames();
