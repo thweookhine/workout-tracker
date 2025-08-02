@@ -1,6 +1,6 @@
 package com.workout.WorkoutTracker.controller;
 
-import com.workout.WorkoutTracker.Repository.UserRepository;
+import com.workout.WorkoutTracker.repository.UserRepository;
 import com.workout.WorkoutTracker.commons.ErrorMessage;
 import com.workout.WorkoutTracker.dto.ChangeStatusDto;
 import com.workout.WorkoutTracker.dto.ResponseData;

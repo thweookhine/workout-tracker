@@ -1,6 +1,6 @@
 package com.workout.WorkoutTracker.serviceImpl;
 
-import com.workout.WorkoutTracker.Repository.ExerciseRepository;
+import com.workout.WorkoutTracker.repository.ExerciseRepository;
 import com.workout.WorkoutTracker.commons.ErrorMessage;
 import com.workout.WorkoutTracker.dto.ExerciseDto;
 import com.workout.WorkoutTracker.dto.ExerciseIdAndNameDto;

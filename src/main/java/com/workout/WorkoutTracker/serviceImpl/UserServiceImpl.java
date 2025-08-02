@@ -1,6 +1,6 @@
 package com.workout.WorkoutTracker.serviceImpl;
 
-import com.workout.WorkoutTracker.Repository.UserRepository;
+import com.workout.WorkoutTracker.repository.UserRepository;
 import com.workout.WorkoutTracker.commons.ErrorMessage;
 import com.workout.WorkoutTracker.dto.LoginRequest;
 import com.workout.WorkoutTracker.dto.SignupRequest;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

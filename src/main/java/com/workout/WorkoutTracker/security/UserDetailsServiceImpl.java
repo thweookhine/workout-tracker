@@ -2,7 +2,7 @@ package com.workout.WorkoutTracker.security;
 
 import java.util.List;
 
-import com.workout.WorkoutTracker.Repository.UserRepository;
+import com.workout.WorkoutTracker.repository.UserRepository;
 import com.workout.WorkoutTracker.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

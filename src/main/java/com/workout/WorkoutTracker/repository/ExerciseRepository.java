@@ -1,4 +1,4 @@
-package com.workout.WorkoutTracker.Repository;
+package com.workout.WorkoutTracker.repository;
 
 import com.workout.WorkoutTracker.dto.ExerciseIdAndNameDto;
 import com.workout.WorkoutTracker.entity.Exercise;

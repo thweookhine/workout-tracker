@@ -1,4 +1,4 @@
-package com.workout.WorkoutTracker.Repository;
+package com.workout.WorkoutTracker.repository;
 
 import com.workout.WorkoutTracker.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.workout.WorkoutTracker.serviceImpl;
 
-import com.workout.WorkoutTracker.Repository.ExerciseRepository;
-import com.workout.WorkoutTracker.Repository.WorkoutPlanRepository;
+import com.workout.WorkoutTracker.repository.ExerciseRepository;
+import com.workout.WorkoutTracker.repository.WorkoutPlanRepository;
 import com.workout.WorkoutTracker.commons.ErrorMessage;
 import com.workout.WorkoutTracker.dto.WorkoutExerciseReqDto;
 import com.workout.WorkoutTracker.dto.WorkoutPlanReqDto;
@@ -72,6 +72,10 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
 
         if((PlanStatus.COMPLETED).equals(oldStatus)) {
             throw new BusinessException("You cannot change already Completed Plans");
+        }
+
+        if((PlanStatus.MISSED).equals(status)) {
+            throw new BusinessException("You cannot change to MISSED Status!");
         }
 
         workoutPlan.setStatus(status);

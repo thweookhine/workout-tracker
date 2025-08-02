@@ -1,7 +1,5 @@
-package com.workout.WorkoutTracker.Repository;
+package com.workout.WorkoutTracker.repository;
 
-import com.workout.WorkoutTracker.dto.WorkoutPlanReqDto;
-import com.workout.WorkoutTracker.dto.WorkoutPlanResDto;
 import com.workout.WorkoutTracker.entity.WorkoutPlan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
