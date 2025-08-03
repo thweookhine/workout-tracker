@@ -20,6 +20,7 @@ public class WorkoutPlanSecurity {
 
     public boolean isOwner(Long planId, Authentication authentication) {
         Optional<WorkoutPlan> planData = workoutPlanRepository.findById(planId);
+
         if(planData.isEmpty()) {
             return false;
         }

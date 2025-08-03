@@ -1,5 +1,6 @@
 package com.workout.WorkoutTracker.serviceImpl;
 
+import com.workout.WorkoutTracker.dto.WorkoutPlanUpdateReqDto;
 import com.workout.WorkoutTracker.repository.ExerciseRepository;
 import com.workout.WorkoutTracker.repository.WorkoutPlanRepository;
 import com.workout.WorkoutTracker.commons.ErrorMessage;
@@ -82,6 +83,19 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         workoutPlanRepository.save(workoutPlan);
 
         return Map.of("previous-status", oldStatus, "updated-status", status);
+    }
+
+    @Override
+    public WorkoutPlanResDto updateWorkout(Long id, WorkoutPlanUpdateReqDto req) {
+
+        WorkoutPlan existingPlan = workoutPlanRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.WORKOUT_PLAN_NOT_FOUND_MSG));
+
+        workoutMapper.updateFromReq(req, existingPlan);
+
+        WorkoutPlan saved = workoutPlanRepository.save(existingPlan);
+
+        return workoutMapper.toDto(saved);
     }
 
 }

@@ -1,11 +1,8 @@
 package com.workout.WorkoutTracker.controller;
 
+import com.workout.WorkoutTracker.dto.*;
 import com.workout.WorkoutTracker.repository.UserRepository;
 import com.workout.WorkoutTracker.commons.ErrorMessage;
-import com.workout.WorkoutTracker.dto.ChangeStatusDto;
-import com.workout.WorkoutTracker.dto.ResponseData;
-import com.workout.WorkoutTracker.dto.WorkoutPlanReqDto;
-import com.workout.WorkoutTracker.dto.WorkoutPlanResDto;
 import com.workout.WorkoutTracker.entity.User;
 import com.workout.WorkoutTracker.exceptions.ResourceNotFoundException;
 import com.workout.WorkoutTracker.service.WorkoutPlanService;
@@ -43,6 +40,15 @@ public class WorkoutController {
     public ResponseEntity<?> changeStatus(@PathVariable Long id, @Valid @RequestBody ChangeStatusDto req) {
         ResponseData<Map<String, PlanStatus>> apiResponse = new ResponseData<>(200, "Status has been changed successfully",
                 workoutPlanService.changeStatus(id, req.getStatus()));
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PutMapping("/update/{id}")
+    @PreAuthorize("@workoutPlanSecurity.isOwner(#id, authentication)")
+    public ResponseEntity<?> updateWorkout(@PathVariable Long id, @Valid @RequestBody WorkoutPlanUpdateReqDto req) {
+        WorkoutPlanResDto res = workoutPlanService.updateWorkout(id, req);
+        ResponseData<WorkoutPlanResDto> apiResponse = new ResponseData<>(200, "Workout plan has been updated successfully",
+                res);
         return ResponseEntity.ok(apiResponse);
     }
 
